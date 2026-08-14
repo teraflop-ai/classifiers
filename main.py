@@ -24,7 +24,7 @@ def main(
     train_ds = train_ds.with_format("torch")
 
     num_labels = len(label2id)
-    in_dim = len(train_ds[0]["features"])
+    in_dim = len(train_ds[0]["embeddings"])
 
     if task == "binary":
         model = BinaryClassifier(in_dim)

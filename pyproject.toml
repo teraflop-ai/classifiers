@@ -1,6 +1,6 @@
 [project]
-name = "classifiers"
-version = "0.1.0"
+name = "linear-probe"
+version = "0.1.1"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"

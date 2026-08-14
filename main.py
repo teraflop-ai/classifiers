@@ -1,8 +1,10 @@
 import argparse
 
+import torch.nn as nn
 from datasets import load_dataset
 from torch.utils.data import DataLoader
 
+from models import BinaryClassifier, MultiClassifier
 from trainer import Trainer
 
 
@@ -11,7 +13,7 @@ def main(
     batch_size: int = 64,
     save_path: str = "model.pt",
     num_labels: int = 1,
-    binary: bool = False,
+    task: str = "binary",
     num_epochs: int = 10,
     lr: float = 1e-3,
     device: str = "cuda",
@@ -19,11 +21,23 @@ def main(
     train_ds = load_dataset(dataset_name, split="train").with_format("torch")
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
     in_dim = len(train_ds[0]["features"])
+
+    if task == "binary":
+        model = BinaryClassifier(in_dim)
+        loss = nn.BCEWithLogitsLoss()
+    elif task == "multilabel":
+        model = MultiClassifier(in_dim, num_labels)
+        loss = nn.BCEWithLogitsLoss()
+    elif task == "multiclass":
+        model = MultiClassifier(in_dim, num_labels)
+        loss = nn.CrossEntropyLoss()
+    else:
+        raise ValueError("Use one of selected available tasks.")
+
     trainer = Trainer(
-        in_dim=in_dim,
+        model=model,
         train_loader=train_loader,
-        num_labels=num_labels,
-        binary=binary,
+        loss=loss,
         num_epochs=num_epochs,
         lr=lr,
         device=device,
@@ -38,9 +52,11 @@ if __name__ == "__main__":
     parser.add_argument("--batch_size", type=int, default=64)
     parser.add_argument("--save_path", default="model.pt")
     parser.add_argument("--num_labels", type=int, default=1)
-    parser.add_argument("--binary", action="store_true")
     parser.add_argument("--num_epochs", type=int, default=10)
     parser.add_argument("--lr", type=float, default=1e-3)
+    parser.add_argument(
+        "--task", choices=["binary", "multilabel", "multiclass"], default="binary"
+    )
     parser.add_argument("--device", default="cuda")
     args = parser.parse_args()
     main(**vars(args))

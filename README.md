@@ -1,4 +1,4 @@
-# classifiers
+# linear-probe
 ```bash
 ruff check --select I --fix . && ruff format .
 ```

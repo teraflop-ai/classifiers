@@ -28,7 +28,7 @@ class Trainer:
             pbar = tqdm(self.train_loader, desc=f"epoch {epoch}", leave=False)
             for batch in pbar:
                 inputs, labels = (
-                    batch["features"].to(self.device),
+                    batch["embeddings"].to(self.device),
                     batch["labels"].to(self.device),
                 )
                 labels = (

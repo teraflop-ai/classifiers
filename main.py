@@ -4,6 +4,7 @@ import torch.nn as nn
 from datasets import load_dataset
 from torch.utils.data import DataLoader
 
+from map_labels import encode_labels
 from models import BinaryClassifier, MultiClassifier
 from trainer import Trainer
 
@@ -18,8 +19,11 @@ def main(
     lr: float = 1e-3,
     device: str = "cuda",
 ):
-    train_ds = load_dataset(dataset_name, split="train").with_format("torch")
-    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
+    train_ds = load_dataset(dataset_name, split="train")
+    train_ds, label2id = encode_labels(train_ds, task)
+    train_ds = train_ds.with_format("torch")
+
+    num_labels = len(label2id)
     in_dim = len(train_ds[0]["features"])
 
     if task == "binary":
@@ -33,6 +37,8 @@ def main(
         loss = nn.CrossEntropyLoss()
     else:
         raise ValueError("Use one of selected available tasks.")
+
+    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
 
     trainer = Trainer(
         model=model,
@@ -51,7 +57,6 @@ if __name__ == "__main__":
     parser.add_argument("--dataset_name", required=True)
     parser.add_argument("--batch_size", type=int, default=64)
     parser.add_argument("--save_path", default="model.pt")
-    parser.add_argument("--num_labels", type=int, default=1)
     parser.add_argument("--num_epochs", type=int, default=10)
     parser.add_argument("--lr", type=float, default=1e-3)
     parser.add_argument(

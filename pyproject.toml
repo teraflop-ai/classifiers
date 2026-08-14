@@ -6,5 +6,6 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "datasets>=5.0.1",
+    "pysimdjson>=7.0.2",
     "torch>=2.13.0",
 ]

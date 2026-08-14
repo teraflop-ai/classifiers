@@ -3,7 +3,7 @@
 ruff check --select I --fix . && ruff format .
 ```
 
-Expected input is `embeddings` and `labels` columns. `labels` are raw values are encoding automatically.
+Expected input is `embeddings` and `labels` columns. `labels` are raw values and encoded automatically.
 
 | task | labels | example |
 |---|---|---|

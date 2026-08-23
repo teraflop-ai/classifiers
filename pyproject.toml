@@ -8,4 +8,5 @@ dependencies = [
     "datasets>=5.0.1",
     "pysimdjson>=7.0.2",
     "torch>=2.13.0",
+    "transformers>=5.15.1",
 ]

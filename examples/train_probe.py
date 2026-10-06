@@ -4,9 +4,9 @@ import torch.nn as nn
 from datasets import load_dataset
 from torch.utils.data import DataLoader
 
-from map_labels import encode_labels
-from models import BinaryClassifier, MultiClassifier
-from trainer import Trainer
+from classifiers.classifier.model import BinaryClassifier, MultiClassifier
+from classifiers.classifier.trainer import Trainer
+from classifiers.map_labels import encode_labels
 
 
 def main(

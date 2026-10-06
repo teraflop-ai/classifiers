@@ -5,9 +5,9 @@ from datasets import load_dataset
 from torch.utils.data import DataLoader
 from transformers import AutoTokenizer, DataCollatorWithPadding
 
-from map_labels import encode_labels
-from models import BertClassifier
-from trainer import Trainer
+from classifiers.classifier.model import BertClassifier
+from classifiers.classifier.trainer import Trainer
+from classifiers.map_labels import encode_labels
 
 
 def main(

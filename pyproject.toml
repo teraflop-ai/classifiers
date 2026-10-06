@@ -1,12 +1,24 @@
 [project]
-name = "linear-probe"
+name = "classifiers"
 version = "0.1.1"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "apache-tvm-ffi>=0.1.14.post1",
+    "cupy-cuda13x>=14.2.0",
     "datasets>=5.0.1",
+    "fastertext>=0.1.4",
+    "nvidia-cutlass-dsl[cu13]>=4.8.0",
     "pysimdjson>=7.0.2",
+    "quack-kernels[cu13]>=0.6.5",
     "torch>=2.13.0",
+    "torch-c-dlpack-ext>=0.1.5",
     "transformers>=5.15.1",
+    "xgboost>=3.4.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
 ]
